@@ -1,6 +1,5 @@
 package com.example.musicapp;
 
-// LoginActivity.java
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,15 +12,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.musicapp.HomeActivity;
+import com.example.musicapp.R;
+import com.example.musicapp.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private Button buttonLogin;
     private FirebaseAuth firebaseAuth;
-    private Button moveButton1;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance(); // Initialize Firestore
 
         buttonLogin.setOnClickListener(v -> loginUser());
 
@@ -74,6 +78,20 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Login successful
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                        // Get the current user
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        if (currentUser != null) {
+                            // Get the user ID (UID)
+                            String userId = currentUser.getUid();
+
+                            // Construct a reference to the user's document in Firestore
+                            DocumentReference userRef = db.collection("users").document(userId);
+
+                            // Now you can perform operations specific to this user
+                            // For example, retrieve user data or update user-related information
+                        }
+
                         // Navigate to the home page or desired activity
                         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                         finish(); // Prevent going back to login screen on back press
@@ -84,3 +102,5 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 }
+
+

@@ -1,43 +1,50 @@
 package com.example.musicapp;
 
-// RegisterActivity.java
-import android.content.Intent;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import android.content.Intent;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText editTextEmail, editTextPassword;
-    private Button buttonRegister;
-    private FirebaseAuth firebaseAuth;
 
-    private Button moveButton;
+    private EditText usernameEditText, emailEditText, passwordEditText;
+    private Button registerButton;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        buttonRegister = findViewById(R.id.buttonRegister);
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        buttonRegister.setOnClickListener(v -> registerUser());
-        Button moveButton = findViewById(R.id.moveButton);
+        usernameEditText = findViewById(R.id.usernameTextEmail);
+        emailEditText = findViewById(R.id.editTextEmail);
+        passwordEditText = findViewById(R.id.editTextPassword);
+        registerButton = findViewById(R.id.buttonRegister);
 
-        moveButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(v -> registerUser());
+
+        TextView textViewButton = findViewById(R.id.moveButton);
+
+        textViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -48,44 +55,39 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        String username = usernameEditText.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError("Email is required");
-            editTextEmail.requestFocus();
+        if (TextUtils.isEmpty(username)) {
+            Toast.makeText(this, "Please enter a username", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Enter a valid email");
-            editTextEmail.requestFocus();
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError("Password is required");
-            editTextPassword.requestFocus();
+            Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (password.length() < 6) {
-            editTextPassword.setError("Password should be at least 6 characters");
-            editTextPassword.requestFocus();
-            return;
-        }
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Registration successful
-                        Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                        // You can add further actions here, like navigating to the home page
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        String userId = currentUser.getUid();
+                        // Save username to database
+                        usersRef.child(userId).child("username").setValue(username);
+
+                        Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show();
+                        // Redirect to HomeActivity or other activity
                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         finish();
                     } else {
-                        // Registration failed
-                        Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Failed to register: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

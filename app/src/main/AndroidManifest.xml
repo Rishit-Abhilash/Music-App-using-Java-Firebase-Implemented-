@@ -31,8 +31,17 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false"/>
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
+        <activity
+            android:name=".PlaylistsActivity"
+            android:exported="false"/>
+        <activity android:name=".PlaylistSongsActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

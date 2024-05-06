@@ -59,12 +59,12 @@ public class PlayerActivity extends AppCompatActivity {
 //        }
 //    }
 //
-    private void showGif(boolean show) {
-        if (show) {
-            binding.songGifImageView.setVisibility(View.VISIBLE);
-        } else {
-            binding.songGifImageView.setVisibility(View.INVISIBLE);
-        }
-    }
+//    private void showGif(boolean show) {
+//        if (show) {
+//            binding.songGifImageView.setVisibility(View.VISIBLE);
+//        } else {
+//            binding.songGifImageView.setVisibility(View.INVISIBLE);
+//        }
+//    }
 }
 

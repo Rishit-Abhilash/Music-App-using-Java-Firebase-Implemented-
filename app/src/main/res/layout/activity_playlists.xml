@@ -1,82 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity"
     android:background="@drawable/bg"
-    android:orientation="vertical">
-    <LinearLayout
+    tools:context=".PlaylistsActivity">
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:padding="16dp">
     <RelativeLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/search_bar_box"
-        android:paddingEnd="10dp"
-        android:background="@drawable/round_btn">
-
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/round_btn"
+        >
         <EditText
-            android:id="@+id/search_bar1"
+            android:id="@+id/playlistNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:hint="Whats on your mind?"
+            android:textColorHint="#888888"
             android:textColor="@color/black"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/search_icon"
-            android:textColorHint="#6A6A6A"
-            android:hint="What do you want to listen?"
-             />
+            android:layout_toStartOf="@id/selectImageButton"/>
 
-            <ImageButton
-                android:id="@+id/search_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/baseline_search_241"
-                android:layout_centerVertical="true"/>
+        <ImageButton
+            android:id="@+id/selectImageButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/baseline_camera_alt_24"
+            android:layout_toStartOf="@id/addPlaylistButton"/>
+
+        <ImageButton
+            android:id="@+id/addPlaylistButton"
+            android:layout_centerVertical="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="24dp"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/baseline_playlist_add_24"
+            android:layout_alignParentEnd="true"
+            />
+
+        <ImageView
+            android:id="@+id/playlistImageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="100dp"
+            android:layout_below="@id/selectImageButton"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/defaultplaylist"/>
 
     </RelativeLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_below="@id/search_bar_box"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_list_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
-
-        </LinearLayout>
-    </ScrollView>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/Hint"
-        android:textAlignment="center"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play what you love!"
-        android:textColor="@color/white"
-        android:textSize="48sp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"/>
+        android:layout_below="@+id/topBar"
+        android:padding="16dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/playlistsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+    </RelativeLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,7 +87,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/outline_home_24"
+            android:src="@drawable/baseline_home_24"
             android:textColor="@color/black" />
 
         <Space
@@ -107,7 +100,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/baseline_saved_search_24"
+            android:src="@drawable/outline_search_24"
             android:textColor="@color/black" />
 
         <Space

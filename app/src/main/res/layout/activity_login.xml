@@ -2,40 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/image"
     android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MusicApp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/editTextEmail"
+        android:layout_marginBottom="40dp"
+        android:textColor="#FFD452"
+        android:textSize="64sp" />
 
     <EditText
         android:id="@+id/editTextEmail"
+        android:background="@drawable/round_box"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="256dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColorHint="#A1000000"/>
 
     <EditText
         android:id="@+id/editTextPassword"
+        android:background="@drawable/round_box"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextEmail"
         android:layout_marginTop="16dp"
+        android:textColor="@color/black"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="#A1000000"/>
 
     <Button
         android:id="@+id/buttonLogin"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextPassword"
-        android:layout_marginTop="24dp"
-        android:text="Login" />
+        android:layout_marginTop="33dp"
+        android:text="Login"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/moveButton1"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonLogin"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:text="Go Register" />
+        android:text="Go Register"
+        android:textStyle="bold"/>
+
 </RelativeLayout>
